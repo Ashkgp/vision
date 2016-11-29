@@ -24,15 +24,15 @@ CameraWorker::CameraWorker(QObject *parent) :
         qDebug() << "Error! camera could not be initialized";
         return;
     }
-//    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 30);
-    IplImage *temp = cvLoadImage("pics/Picture 25.jpg");
+/*    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 30);
+    IplImage *temp = cvCreateImage(cvSize(640,480), 8, 3);
     arenaFrame = cvCreateImage(cvSize(640,480), 8, 3);
     cvResize(temp, arenaFrame);
     if(!arenaFrame)
     {
         qDebug() << "Arena couln't be loaded.";
         return;
-    }
+    }*/
     frame = cvQueryFrame(capture);
 //        qDebug() << "no roi";
     roi = new IplROI;
@@ -49,7 +49,7 @@ CameraWorker::CameraWorker(QObject *parent) :
     bs = new BeliefState;
 //    qDebug() << "xOffset = " << frame->roi->xOffset << " yOffset = " << frame->roi->yOffset << " width= " << frame->roi->width << "height=" << frame->roi->height;
     displayCamFrame = cvCreateImage(cvSize(frame->width, frame->height), 8, 3);
-    displayArenaFrame = cvCloneImage(arenaFrame);
+    //displayArenaFrame = cvCloneImage(arenaFrame);
     calibFrame = cvCreateImage(cvSize(frame->width, frame->height), 8, 3);
     blobImage = cvCreateImage(cvSize(frame->width, frame->height), 8, 1);
     myPixmap = NULL;
@@ -64,10 +64,13 @@ void CameraWorker::setup(QThread *cThread, QMutex *mutex, QMutex *_lutMutex, LUT
     lutMutex = _lutMutex;
     lut = _lut;
     connect(cThread, SIGNAL(started()), this, SLOT(onEntry()));
+    timer->moveToThread(cThread);
 }
 
 void CameraWorker::onTimeout()
 {
+    timer->setSingleShot(true);
+    timer->start(5);
     if(isCamera)
     {
         displayFrame = displayCamFrame;
@@ -75,8 +78,8 @@ void CameraWorker::onTimeout()
     }
     else
     {
-        displayFrame = displayArenaFrame;
-        frame = arenaFrame;
+       // displayFrame = displayArenaFrame;
+        //frame = arenaFrame;
     }
     if(!frame)
         return;
@@ -101,7 +104,7 @@ void CameraWorker::onTimeout()
     }
     if(isArenaCalib)
     {
-        a.drawArenaDisplay(displayFrame);
+      //  a.drawArenaDisplay(displayFrame);
     }
     cvCvtColor(displayFrame, displayFrame,CV_BGR2RGB);
     QImage qimg((uchar*)displayFrame->imageData, displayFrame->width, displayFrame->height, displayFrame->widthStep, QImage::Format_RGB888);
@@ -111,8 +114,6 @@ void CameraWorker::onTimeout()
     myPixmap = new QPixmap(QPixmap::fromImage(qimg));
     myMutex->unlock();
     emit imageReady(myPixmap);
-    timer->setSingleShot(true);
-    timer->start(10);
 }
 
 void CameraWorker::onEntry()
@@ -128,8 +129,8 @@ void CameraWorker::onStop()
         cvReleaseCapture(&capture);
     if(displayCamFrame)
         cvReleaseImage(&displayCamFrame);
-    if(displayArenaFrame)
-        cvReleaseImage(&displayArenaFrame);
+  //  if(displayArenaFrame)
+   //     cvReleaseImage(&displayArenaFrame);
     myMutex->lock();
     if(myPixmap)
         delete myPixmap;

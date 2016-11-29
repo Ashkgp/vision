@@ -38,6 +38,8 @@ public slots:
     void onStop();
 private slots:
 
+    void on_camRadio_clicked();
+
 private:
     Ui::MainWindow *uiPtr;
     MainWindow *mw;

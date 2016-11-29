@@ -133,7 +133,7 @@ bool Arena::load()
     listOfPoints[5] = &bombDrop;
     listOfPoints[6] = &startCorner;
     sizeOfList = 7;
-    FILE *f = fopen(ARENA_CONFIG, "r");
+   /* FILE *f = fopen(ARENA_CONFIG, "r");
     if(!f)
     {
         qDebug() << "Could'nt load arena data!";
@@ -148,7 +148,7 @@ bool Arena::load()
             return false;
         }
     }
-    fclose(f);
+    fclose(f);*/
     return true;
 }
 

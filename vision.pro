@@ -44,9 +44,9 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-INCLUDEPATH += /usr/local/include/opencv \
-               /usr/local/include/opencv2 \
-               /usr/local/include
+INCLUDEPATH += /usr/include/opencv \
+               /usr/include/opencv2 \
+               /usr/include
 LIBS += -L/usr/local/lib \
         -lopencv_calib3d \
         -lopencv_contrib \
@@ -58,7 +58,6 @@ LIBS += -L/usr/local/lib \
         -lopencv_imgproc \
         -lopencv_legacy \
         -lopencv_ml \
-        -lopencv_nonfree \
         -lopencv_objdetect \
         -lopencv_photo \
         -lopencv_stitching \

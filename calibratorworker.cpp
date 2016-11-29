@@ -101,3 +101,8 @@ void CalibratorWorker::onEntry()
     emit myPaint();
 }
 
+
+void CalibratorWorker::on_camRadio_clicked()
+{
+
+}
