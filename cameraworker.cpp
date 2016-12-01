@@ -54,6 +54,7 @@ CameraWorker::CameraWorker(QObject *parent) :
     blobImage = cvCreateImage(cvSize(frame->width, frame->height), 8, 1);
     myPixmap = NULL;
     timer = new QTimer;
+    qDebug() << "Here ";
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 }
 
@@ -191,10 +192,6 @@ CvPoint CameraWorker::convertToCalibCoord(CvPoint in)
 
 void CameraWorker::onMouseClicked(int x, int y)//WARNING: calibration now done on displayframe directly?
 {
-    if(isArenaCalib)
-        return;
-    if(!frame)
-        return;
     if(x >= frame->width || y>=frame->height || x<0 || y<0)
         return;
     int b = IMGDATA(calibFrame, y, x, 0);
@@ -204,9 +201,9 @@ void CameraWorker::onMouseClicked(int x, int y)//WARNING: calibration now done o
 }
 
 void CameraWorker::onRightMouseDragged(int dx, int dy)
-{
+{/*
     if(isArenaCalib)
-        return;
+        return;*/
     roi->xOffset-=dx/(zoom+1);
     roi->yOffset-=dy/(zoom+1);
     if(roi->xOffset < 0)
@@ -220,9 +217,9 @@ void CameraWorker::onRightMouseDragged(int dx, int dy)
 }
 
 void CameraWorker::onMouseScrolled(int ticks)//WARNING: currently only considers ticks as positive/negative
-{
+{/*
     if(isArenaCalib)
-        return;
+        return;*/
     if(zoom + ticks < 0 || zoom + ticks > 6)
         return;
     zoom += ticks;

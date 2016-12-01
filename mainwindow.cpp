@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     fpsTimer = new QTime;
     lutMutex = new QMutex;
-//    connect(ui->imgLabel, SIGNAL(mouseOnlyMove(int,int)), this, SLOT(onMouseOnlyMove(int,int)));
+    connect(ui->imgLabel, SIGNAL(mouseOnlyMove(int,int)), this, SLOT(onMouseOnlyMove(int,int)));
 
     /////////////////////////////////// Setting up Calibrator worker:
     calibThread = new QThread;
@@ -54,14 +54,14 @@ MainWindow::MainWindow(QWidget *parent) :
 //    timer->start(30);
     connect(cw, SIGNAL(markBGR(int,int,int)), calibw, SLOT(onCameraImageClicked_bgr(int,int,int)));
 
-    /*///////////////////////////////// Setting up Algorithm Worker:
+    ///////////////////////////////// Setting up Algorithm Worker:
     algoThread = new QThread;
     aw = new AlgoWorker;
     aw->setup(algoThread, camMutex, cw->getBS());
     aw->moveToThread(algoThread);
 //    algoThread->start();
 
-    fpsTimer->start();*/
+    fpsTimer->start();
 
 }
 void MainWindow::onTimeout()
@@ -71,7 +71,7 @@ void MainWindow::onTimeout()
 
 void MainWindow::onMouseOnlyMove(int x, int y)
 {
-//    qDebug()<< "mousemove";
+    qDebug()<< "mousemove";
     ui->mouseXLabel->setText("x = " + QString::number(x));
     ui->mouseYLabel->setText("y = " + QString::number(y));
 }
@@ -156,18 +156,18 @@ void MainWindow::on_blobs_checkbox_stateChanged(int arg1)
 }
 
 void MainWindow::on_startButton_clicked()
-{/*
+{
     if(!algoThread->isRunning())
-        algoThread->start();*/
+        algoThread->start();
 }
 
 void MainWindow::on_stopButton_clicked()
 {
-/*   qDebug() << "pressed stop";
+   qDebug() << "pressed stop";
     if(algoThread->isRunning())
     {
 //        qDebug() << "ok";
         algoThread->quit();
 //        algoThread->wait();
-    }*/
+    }
 }

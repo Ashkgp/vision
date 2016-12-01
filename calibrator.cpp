@@ -144,7 +144,7 @@ void Calibrator::onMouseScroll(int ticks)
 }
 void Calibrator::onMouseClick(int x, int y)
 {
-    if(x<0||x>255||y<0||y>255)
+    if(x<0||y<0)
     {
         return;
     }
@@ -160,7 +160,7 @@ void Calibrator::onMouseClick(int x, int y)
 
 void Calibrator::onMouseRightClick(int x, int y)
 {
-    if(x<0||x>255||y<0||y>255)
+    if(x<0||y<0)
     {
         return;
     }

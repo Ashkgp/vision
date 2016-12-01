@@ -48,7 +48,7 @@ void CalibratorWorker::onColorChanged(int row)
 
 void CalibratorWorker::onCameraImageClicked_bgr(int b, int g, int r)
 {
-//    qDebug() << "click! calib";
+    qDebug() << "click! calib";
     cb->mark_bgr(b, g, r);
     emit myPaint();
 }
